@@ -24,6 +24,12 @@ public class PassiveComponent {
     @Schema(description = "Identificador único del componente", example = "1", accessMode = Schema.AccessMode.READ_ONLY)
     private Integer id;
 
+    @Column(name = "NAME", nullable = false, length = 50)
+    @NotBlank(message = "El nombre no puede estar vacío")
+    @Size(min = 2, max = 50, message = "El nombre debe tener entre 2 y 50 caracteres")
+    @Schema(description = "Nombre del componente pasivo", example = "Resistencia 10kΩ")
+    private String name;
+
     @Column(name = "PIN_COUNT", nullable = false, columnDefinition = "NUMBER")
     @NotNull(message = "El número de pines es obligatorio")
     @Positive(message = "El número de pines debe ser positivo")

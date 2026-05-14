@@ -51,6 +51,7 @@ public class PassiveComponentService implements IPassiveComponentService {
         Manufacturer manufacturer = resolveManufacturer(request.getManufacturerId());
         NominalValue nominalValue = resolveNominalValue(request.getNominalValue());
         PassiveComponent pc = new PassiveComponent();
+        pc.setName(request.getName());
         pc.setPinCount(request.getPinCount());
         pc.setPackageType(request.getPackageType());
         pc.setVoltage(request.getVoltage());
@@ -68,6 +69,11 @@ public class PassiveComponentService implements IPassiveComponentService {
     @Override
     public Optional<PassiveComponent> findById(int id) {
         return repository.findById(id);
+    }
+
+    @Override
+    public Optional<PassiveComponent> findByName(String name) {
+        return repository.findByNameIgnoreCase(name);
     }
 
     @Override
@@ -112,6 +118,7 @@ public class PassiveComponentService implements IPassiveComponentService {
         return repository.findById(id).map(existing -> {
             Manufacturer manufacturer = resolveManufacturer(request.getManufacturerId());
             NominalValue nominalValue = resolveNominalValue(request.getNominalValue());
+            existing.setName(request.getName());
             existing.setPinCount(request.getPinCount());
             existing.setPackageType(request.getPackageType());
             existing.setVoltage(request.getVoltage());

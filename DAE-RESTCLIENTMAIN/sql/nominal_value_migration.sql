@@ -1,3 +1,10 @@
+ALTER TABLE ELECTRONICCOMPONENT ADD (NAME VARCHAR2(50) NOT NULL);
+SELECT * FROM MANUFACTURER
+DELETE FROM MANUFACTURER WHERE ID = 5
+
+CREATE UNIQUE INDEX UQ_MANUFACTURER_NAME
+    ON MANUFACTURER (UPPER(NAME));
+
 -- ============================================================
 -- 1. Secuencia para NOMINAL_VALUE
 -- ============================================================

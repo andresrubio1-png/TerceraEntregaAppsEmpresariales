@@ -8,9 +8,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PassiveComponentRepository extends JpaRepository<PassiveComponent, Integer> {
+
+    Optional<PassiveComponent> findByNameIgnoreCase(String name);
 
     List<PassiveComponent> findByPackageType(PackageType packageType);
 

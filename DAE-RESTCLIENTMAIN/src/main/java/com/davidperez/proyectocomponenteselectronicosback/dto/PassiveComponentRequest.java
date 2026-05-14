@@ -12,6 +12,11 @@ import lombok.NoArgsConstructor;
 @Schema(description = "Datos para crear o actualizar un componente pasivo")
 public class PassiveComponentRequest {
 
+    @NotBlank(message = "El nombre no puede estar vacío")
+    @Size(min = 2, max = 50, message = "El nombre debe tener entre 2 y 50 caracteres")
+    @Schema(description = "Nombre del componente pasivo", example = "Resistencia 10kΩ", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String name;
+
     @NotNull(message = "El número de pines es obligatorio")
     @Positive(message = "El número de pines debe ser positivo")
     @Max(value = 1000, message = "No puede superar 1000 pines")
