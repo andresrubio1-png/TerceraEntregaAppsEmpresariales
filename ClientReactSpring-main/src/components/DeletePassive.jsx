@@ -2,10 +2,12 @@ import { useState } from "react";
 import * as passiveService from "../services/passiveService";
 
 function DeletePassive() {
+
     const [id, setId] = useState("");
     const [result, setResult] = useState(null);
 
     const handleSearch = () => {
+
         if (!id) {
             alert("Ingrese un ID");
             return;
@@ -20,54 +22,167 @@ function DeletePassive() {
     };
 
     const handleDelete = () => {
-        const confirmDelete = window.confirm("¿Seguro que deseas eliminar este componente?");
+
+        const confirmDelete = window.confirm(
+            "¿Seguro que deseas eliminar este componente?"
+        );
+
         if (!confirmDelete) return;
 
         passiveService.remove(id)
             .then(() => {
+
                 alert("Eliminado correctamente");
+
                 setResult(null);
                 setId("");
+
             })
             .catch(err => console.error(err));
     };
 
     return (
-        <div>
-            <h2>Eliminar Componente</h2>
 
-            <input
-                placeholder="Ingrese ID"
-                value={id}
-                onChange={(e) => setId(e.target.value)}
-            />
+        <div className="page-container">
 
-            <button onClick={handleSearch}>Buscar</button>
+            <div className="horizontal-form">
 
-            <hr />
-
-            {result && (
-                <div style={{ border: "1px solid red", padding: "10px" }}>
-                    <p><strong>Detalles del componente</strong></p>
-                    <p><strong>ID:</strong> {result.id}</p>
-                    <p><strong>Pines:</strong> {result.pinCount}</p>
-                    <p><strong>Encapsulado:</strong> {result.packageType}</p>
-                    <p><strong>Voltaje:</strong> {result.voltage}</p>
-                    <p><strong>Tolerancia:</strong> {result.tolerance}</p>
-                    <p><strong>Valor Nominal:</strong> {result.nominalValue.value} , {result.nominalValue.unit}</p>
-                    <p><strong>Fecha:</strong> {result.createdAt.split("T")[0]}</p>
-                    <p>-------------------------------------------------------------------------------</p>
-                    <p><strong>Detalles del fabricante</strong></p>
-                    <p><strong>Fabricante:</strong> {result.manufacturer?.name}</p>
-                    <p><strong>Pais:</strong> {result.manufacturer?.country}</p>
-                    <p><strong>Tiempo de entrega:</strong> {result.manufacturer?.averageLeadTime}</p>
-
-
-                    <button onClick={handleDelete} style={{ background: "red", color: "white" }}>
-                        Confirmar Eliminación
-                    </button>
+                <div className="form-header">
+                    <h2>Eliminar Componente</h2>
                 </div>
-            )}
+
+                <div
+                    className="horizontal-grid"
+                    style={{
+                        gridTemplateColumns: "1fr 180px",
+                        alignItems: "end"
+                    }}
+                >
+
+                    <div className="form-group">
+
+                        <label>ID del Componente</label>
+
+                        <input
+                            type="number"
+                            placeholder="Ingrese ID"
+                            value={id}
+                            onChange={(e) => setId(e.target.value)}
+                        />
+
+                    </div>
+
+                    <div className="form-actions">
+
+                        <button onClick={handleSearch}>
+                            Buscar
+                        </button>
+
+                    </div>
+
+                </div>
+
+                {result && (
+
+                    <>
+
+                        <table style={{ marginTop: "30px" }}>
+
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre </th>
+                                    <th>Pines</th>
+                                    <th>Encapsulado</th>
+                                    <th>Voltaje</th>
+                                    <th>Tolerancia</th>
+                                    <th>Valor Nominal</th>
+                                    <th>Fecha</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+
+                                    <td>{result.id}</td>
+                                    <td>{result.name}</td>
+                                    <td>{result.pinCount}</td>
+
+                                    <td>{result.packageType}</td>
+
+                                    <td>{result.voltage}</td>
+
+                                    <td>{result.tolerance}</td>
+
+                                    <td>
+                                        {result.nominalValue?.value}
+                                        {" "}
+                                        {result.nominalValue?.unit}
+                                    </td>
+
+                                    <td>
+                                        {result.createdAt?.split("T")[0]}
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                        <table style={{ marginTop: "20px" }}>
+
+                            <thead>
+                                <tr>
+                                    <th>Fabricante</th>
+                                    <th>País</th>
+                                    <th>Lead Time</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+
+                                    <td>
+                                        {result.manufacturer?.name}
+                                    </td>
+
+                                    <td>
+                                        {result.manufacturer?.country}
+                                    </td>
+
+                                    <td>
+                                        {result.manufacturer?.averageLeadTime}
+                                    </td>
+
+                                    <td>
+
+                                        <button
+                                            onClick={handleDelete}
+                                            style={{
+                                                background: "#dc2626"
+                                            }}
+                                        >
+                                            Eliminar
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </>
+
+                )}
+
+            </div>
+
         </div>
     );
 }

@@ -1,35 +1,92 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+  useLocation
+} from "react-router-dom";
+import './index.css'
+import './App.css'
 
 import PassiveComponentsPage from "./pages/PassiveComponentsPage";
 import ManufacturersPage from "./pages/ManufacturersPage";
 
-function App() {
+function Navigation() {
+
+  const location = useLocation();
+
   return (
+
+    <header className="topbar">
+
+      <div className="topbar-logo">
+        Electronic Manager
+      </div>
+
+      <nav className="topbar-nav">
+
+        <Link
+          to="/manufacturers"
+          className={
+            location.pathname === "/manufacturers"
+              ? "nav-link active"
+              : "nav-link"
+          }
+        >
+          Fabricantes
+        </Link>
+
+        <Link
+          to="/components"
+          className={
+            location.pathname === "/components"
+              ? "nav-link active"
+              : "nav-link"
+          }
+        >
+          Componentes
+        </Link>
+
+      </nav>
+
+    </header>
+
+  );
+}
+
+function App() {
+
+  return (
+
     <BrowserRouter>
-      <div>
-        
-        <Link to="/manufacturers">
-            Fabricantes
-          </Link>
 
-        <nav style={{ marginBottom: "20px" }}>
-          <Link to="/components" style={{ marginRight: "10px" }}>
-             Componentes
-          </Link>
+      <div className="app-layout">
 
-          
-        </nav>
-
+        <Navigation />
 
         <Routes>
-          <Route path="/components" element={<PassiveComponentsPage />} />
-          <Route path="/manufacturers" element={<ManufacturersPage />} />
 
-          {/* ruta por defecto */}
-          <Route path="*" element={<PassiveComponentsPage />} />
+          <Route
+            path="/components"
+            element={<PassiveComponentsPage />}
+          />
+
+          <Route
+            path="/manufacturers"
+            element={<ManufacturersPage />}
+          />
+
+          <Route
+            path="*"
+            element={<PassiveComponentsPage />}
+          />
+
         </Routes>
+
       </div>
+
     </BrowserRouter>
+
   );
 }
 

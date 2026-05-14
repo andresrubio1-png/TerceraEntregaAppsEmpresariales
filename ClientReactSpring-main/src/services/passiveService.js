@@ -24,3 +24,6 @@ export const getByPackageType = (type) =>
 
 export const getByVoltageRange = (min, max) =>
   axios.get(`${API_URL}?minVoltage=${min}&maxVoltage=${max}`);
+
+export const getByName = (name) =>
+    axios.get(`${API_URL}/search`, { params: { name } });

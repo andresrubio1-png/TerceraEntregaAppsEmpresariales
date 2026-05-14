@@ -1,173 +1,274 @@
 import { useState } from "react";
 import * as passiveService from "../services/passiveService";
 
-const packageTypes = ["SMD", "DIP", "SIP", "QFP", "BGA", "SOT", "TO", "AXIAL"];
+const packageTypes = [
+    "SMD",
+    "DIP",
+    "SIP",
+    "QFP",
+    "BGA",
+    "SOT",
+    "TO",
+    "AXIAL"
+];
 
 function FilterPassive() {
-  const [filterMode, setFilterMode] = useState("type");
 
-  const [packageType, setPackageType] = useState("");
-  const [minVoltage, setMinVoltage] = useState("");
-  const [maxVoltage, setMaxVoltage] = useState("");
+    const [filterMode, setFilterMode] = useState("type");
 
-  const [data, setData] = useState([]);
+    const [packageType, setPackageType] = useState("");
 
-const handleFilter = () => {
+    const [minVoltage, setMinVoltage] = useState("");
+    const [maxVoltage, setMaxVoltage] = useState("");
 
-  // FILTRO POR TIPO
-  if (filterMode === "type") {
-    if (!packageType) {
-      alert("Seleccione un tipo");
-      return;
-    }
+    const [data, setData] = useState([]);
 
-    passiveService.getByPackageType(packageType)
-      .then(res => {
-        console.log("RESPUESTA:", res.data);
-        setData(res.data);
-      })
-      .catch(err => console.error(err));
+    const handleFilter = () => {
 
-    return; // 🔥 IMPORTANTE
-  }
+        // FILTRO POR TIPO
+        if (filterMode === "type") {
 
-  // FILTRO POR VOLTAJE
-  if (filterMode === "voltage") {
-    if (!minVoltage || !maxVoltage) {
-      alert("Ingrese ambos valores");
-      return;
-    }
+            if (!packageType) {
+                alert("Seleccione un tipo");
+                return;
+            }
 
-    if (Number(minVoltage) > Number(maxVoltage)) {
-      alert("El mínimo no puede ser mayor que el máximo");
-      return;
-    }
+            passiveService.getByPackageType(packageType)
+                .then(res => setData(res.data))
+                .catch(err => console.error(err));
 
-    passiveService.getByVoltageRange(minVoltage, maxVoltage)
-      .then(res => {
-        console.log("RESPUESTA:", res.data);
-        setData(res.data);
-      })
-      .catch(err => console.error(err));
+            return;
+        }
 
-    return;
-  }
-};
+        // FILTRO POR VOLTAJE
+        if (filterMode === "voltage") {
 
-  return (
-    <div style={{ maxWidth: "500px", margin: "auto" }}>
-      <h2>Filtrar Componentes</h2>
+            if (!minVoltage || !maxVoltage) {
+                alert("Ingrese ambos valores");
+                return;
+            }
 
-      {/* 🔘 Selección de modo */}
-      <div style={{ marginBottom: "15px" }}>
-        <label>
-          <input
-            type="radio"
-            checked={filterMode === "type"}
-            onChange={() => {
-              setFilterMode("type");
-              setMinVoltage("");
-              setMaxVoltage("");
-            }}
-          />
-          Por tipo
-        </label>
+            if (Number(minVoltage) > Number(maxVoltage)) {
+                alert("El mínimo no puede ser mayor que el máximo");
+                return;
+            }
 
-        <label style={{ marginLeft: "15px" }}>
-          <input
-            type="radio"
-            checked={filterMode === "voltage"}
-            onChange={() => {
-              setFilterMode("voltage");
-              setPackageType("");
-            }}
-          />
-          Por voltaje
-        </label>
-      </div>
+            passiveService.getByVoltageRange(
+                minVoltage,
+                maxVoltage
+            )
+                .then(res => setData(res.data))
+                .catch(err => console.error(err));
+        }
+    };
 
-      {/* 📦 FILTRO POR TIPO */}
-      {filterMode === "type" && (
-        <div style={{ marginBottom: "15px" }}>
-          <label>Tipo de encapsulado:</label>
-          <br />
-          <select
-            value={packageType}
-            onChange={(e) => setPackageType(e.target.value)}
-            style={{ width: "100%", padding: "5px" }}
-          >
-            <option value="">Seleccione tipo</option>
-            {packageTypes.map(p => (
-              <option key={p} value={p}>{p}</option>
-            ))}
-          </select>
-        </div>
-      )}
+    return (
 
-      {/* ⚡ FILTRO POR VOLTAJE */}
-      {filterMode === "voltage" && (
-        <div style={{ marginBottom: "15px" }}>
-          <label>Voltaje mínimo:</label>
-          <input
-            type="number"
-            value={minVoltage}
-            onChange={(e) => setMinVoltage(e.target.value)}
-            style={{ width: "100%", marginBottom: "10px" }}
-          />
+        <div className="page-container">
 
-          <label>Voltaje máximo:</label>
-          <input
-            type="number"
-            value={maxVoltage}
-            onChange={(e) => setMaxVoltage(e.target.value)}
-            style={{ width: "100%" }}
-          />
-        </div>
-      )}
+            <div className="horizontal-form">
 
-      {/* 🔘 BOTÓN */}
-      <button
-        onClick={handleFilter}
-        style={{
-          width: "100%",
-          padding: "10px",
-          background: "#e63946",
-          color: "white",
-          border: "none",
-          borderRadius: "5px"
-        }}
-      >
-        Filtrar
-      </button>
+                <div className="form-header">
+                    <h2>Filtrar Componentes</h2>
+                </div>
 
-      <hr />
+                <div
+                    className="horizontal-grid"
+                    style={{
+                        gridTemplateColumns:
+                            "220px 1fr 1fr 180px",
+                        alignItems: "end"
+                    }}
+                >
 
-      {/* 📊 RESULTADOS */}
-      {data.length === 0 ? (
-        <p>Realiza un filtro para ver resultados</p>
-      ) : (
-        <div>
-          {data.map(c => (
-            <div
-              key={c.id}
-              style={{
-                border: "1px solid #ccc",
-                padding: "10px",
-                marginBottom: "10px",
-                borderRadius: "8px"
-              }}
-            >
-              <p><strong>ID:</strong> {c.id}</p>
-              <p><strong>Tipo:</strong> {c.packageType}</p>
-              <p><strong>Voltaje:</strong> {c.voltage} V</p>
-              <p><strong>Pines:</strong> {c.pinCount}</p>
-              <p><strong>Fabricante:</strong> {c.manufacturer?.name}</p>
+                    {/* MODO */}
+
+                    <div className="form-group">
+
+                        <label>Tipo de Filtro</label>
+
+                        <select
+                            value={filterMode}
+                            onChange={(e) => {
+
+                                setFilterMode(e.target.value);
+
+                                setPackageType("");
+
+                                setMinVoltage("");
+                                setMaxVoltage("");
+
+                                setData([]);
+
+                            }}
+                        >
+
+                            <option value="type">
+                                Por Tipo
+                            </option>
+
+                            <option value="voltage">
+                                Por Voltaje
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    {/* FILTRO TIPO */}
+
+                    {filterMode === "type" && (
+
+                        <div className="form-group">
+
+                            <label>Encapsulado</label>
+
+                            <select
+                                value={packageType}
+                                onChange={(e) =>
+                                    setPackageType(
+                                        e.target.value
+                                    )
+                                }
+                            >
+
+                                <option value="">
+                                    Seleccione tipo
+                                </option>
+
+                                {packageTypes.map(p => (
+                                    <option
+                                        key={p}
+                                        value={p}
+                                    >
+                                        {p}
+                                    </option>
+                                ))}
+
+                            </select>
+
+                        </div>
+
+                    )}
+
+                    {/* FILTRO VOLTAJE */}
+
+                    {filterMode === "voltage" && (
+
+                        <>
+
+                            <div className="form-group">
+
+                                <label>Voltaje Mínimo</label>
+
+                                <input
+                                    type="number"
+                                    value={minVoltage}
+                                    onChange={(e) =>
+                                        setMinVoltage(
+                                            e.target.value
+                                        )
+                                    }
+                                    placeholder="Ej: 1"
+                                />
+
+                            </div>
+
+                            <div className="form-group">
+
+                                <label>Voltaje Máximo</label>
+
+                                <input
+                                    type="number"
+                                    value={maxVoltage}
+                                    onChange={(e) =>
+                                        setMaxVoltage(
+                                            e.target.value
+                                        )
+                                    }
+                                    placeholder="Ej: 12"
+                                />
+
+                            </div>
+
+                        </>
+
+                    )}
+
+                    {/* BOTÓN */}
+
+                    <div className="form-actions">
+
+                        <button onClick={handleFilter}>
+                            Filtrar
+                        </button>
+
+                    </div>
+
+                </div>
+
+                {/* RESULTADOS */}
+
+                {data.length > 0 && (
+
+                    <table style={{ marginTop: "30px" }}>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Tipo</th>
+
+                                <th>Voltaje</th>
+
+                                <th>Pines</th>
+
+                                <th>Fabricante</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {data.map(c => (
+
+                                <tr key={c.id}>
+
+                                    <td>{c.id}</td>
+                                    <td>{c.name}</td>
+                                    <td>
+                                        {c.packageType}
+                                    </td>
+
+                                    <td>
+                                        {c.voltage} V
+                                    </td>
+
+                                    <td>
+                                        {c.pinCount}
+                                    </td>
+
+                                    <td>
+                                        {c.manufacturer?.name}
+                                    </td>
+
+                                </tr>
+
+                            ))}
+
+                        </tbody>
+
+                    </table>
+
+                )}
+
             </div>
-          ))}
+
         </div>
-      )}
-    </div>
-  );
+    );
 }
 
 export default FilterPassive;
