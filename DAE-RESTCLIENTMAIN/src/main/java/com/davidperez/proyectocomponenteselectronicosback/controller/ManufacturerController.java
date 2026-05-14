@@ -71,7 +71,7 @@ public class ManufacturerController {
     @Operation(summary = "Buscar fabricante por nombre")
     @GetMapping("/search")
     public ResponseEntity<Manufacturer> findByName(
-            @Parameter(description = "Nombre exacto del fabricante") @RequestParam String name) {
+            @Parameter(description = "Nombre exacto del fabricante (insensible a mayúsculas)") @RequestParam String name) {
         return service.findByName(name)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
