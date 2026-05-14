@@ -72,7 +72,7 @@ public class PassiveComponentService implements IPassiveComponentService {
     }
 
     @Override
-    public Optional<PassiveComponent> findByName(String name) {
+    public List<PassiveComponent> findByName(String name) {
         return repository.findByNameIgnoreCase(name);
     }
 

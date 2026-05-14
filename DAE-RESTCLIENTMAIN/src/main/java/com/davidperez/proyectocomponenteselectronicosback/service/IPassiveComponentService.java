@@ -24,7 +24,7 @@ public interface IPassiveComponentService {
 
     Optional<PassiveComponent> findById(int id);
 
-    Optional<PassiveComponent> findByName(String name);
+    List<PassiveComponent> findByName(String name);
 
     Optional<PassiveComponent> update(int id, PassiveComponentRequest request);
 

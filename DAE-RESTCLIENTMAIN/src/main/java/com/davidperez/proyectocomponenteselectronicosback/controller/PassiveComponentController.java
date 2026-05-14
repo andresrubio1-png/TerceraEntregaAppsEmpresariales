@@ -85,18 +85,11 @@ public class PassiveComponentController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @Operation(summary = "Buscar componente pasivo por nombre")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Componente encontrado",
-                    content = @Content(schema = @Schema(implementation = PassiveComponent.class))),
-            @ApiResponse(responseCode = "404", description = "No encontrado", content = @Content)
-    })
+    @Operation(summary = "Buscar componentes pasivos por nombre")
     @GetMapping("/search")
-    public ResponseEntity<PassiveComponent> findByName(
-            @Parameter(description = "Nombre exacto del componente") @RequestParam String name) {
-        return service.findByName(name)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<List<PassiveComponent>> findByName(
+            @Parameter(description = "Nombre del componente (insensible a mayúsculas)") @RequestParam String name) {
+        return ResponseEntity.ok(service.findByName(name));
     }
 
     @Operation(summary = "Actualizar un componente pasivo")
