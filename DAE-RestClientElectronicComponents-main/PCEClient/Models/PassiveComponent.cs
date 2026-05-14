@@ -9,6 +9,9 @@ namespace PCEClient.Models
         [JsonProperty("id")]
         public int? Id { get; set; }
 
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
         [JsonProperty("pinCount")]
         public int PinCount { get; set; }
 

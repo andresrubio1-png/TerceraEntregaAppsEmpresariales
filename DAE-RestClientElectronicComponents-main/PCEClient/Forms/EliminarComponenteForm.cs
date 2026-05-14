@@ -9,43 +9,11 @@ namespace PCEClient.Forms
     {
         private PassiveComponent _componenteEncontrado;
 
-        public EliminarComponenteForm()
+        public EliminarComponenteForm(PassiveComponent componente)
         {
             InitializeComponent();
-            btnEliminar.Visible = false;
-        }
-
-        private async void btnBuscar_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (!int.TryParse(txtId.Text, out int id))
-                {
-                    MessageBox.Show("Ingrese un ID válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                btnBuscar.Enabled = false;
-                _componenteEncontrado = await ApiService.Instance.GetByIdAsync(id);
-                btnBuscar.Enabled = true;
-
-                if (_componenteEncontrado == null)
-                {
-                    MessageBox.Show("No se encontró un componente con ese ID.", "No encontrado",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    ClearDetails();
-                    btnEliminar.Visible = false;
-                    return;
-                }
-
-                ShowDetails(_componenteEncontrado);
-                btnEliminar.Visible = true;
-            }
-            catch (Exception ex)
-            {
-                btnBuscar.Enabled = true;
-                MessageBox.Show($"Error al buscar:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            _componenteEncontrado = componente ?? throw new ArgumentNullException(nameof(componente));
+            ShowDetails(_componenteEncontrado);
         }
 
         private async void btnEliminar_Click(object sender, EventArgs e)
@@ -68,10 +36,8 @@ namespace PCEClient.Forms
                     MessageBox.Show("Componente eliminado exitosamente.", "Éxito",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                     ComponentEventManager.Instance.NotifyAll();
-                    ClearDetails();
-                    btnEliminar.Visible = false;
-                    txtId.Clear();
                     _componenteEncontrado = null;
+                    this.Close();
                 }
                 else
                 {
@@ -98,20 +64,6 @@ namespace PCEClient.Forms
             lblDetManufacturer.Text = $"Fabricante: {c.Manufacturer?.Name ?? "—"}";
             lblDetCountry.Text      = $"País: {c.Manufacturer?.Country ?? "—"}";
             lblDetLeadTime.Text     = $"T. de entrega: {c.Manufacturer?.AverageLeadTime} días";
-        }
-
-        private void ClearDetails()
-        {
-            lblDetId.Text           = "ID:";
-            lblDetPinCount.Text     = "Núm. de pines:";
-            lblDetPackageType.Text  = "Encapsulado:";
-            lblDetVoltage.Text      = "Voltaje:";
-            lblDetTolerance.Text    = "Tolerancia:";
-            lblDetNominalValue.Text = "Valor nominal:";
-            lblDetCreatedAt.Text    = "Creado:";
-            lblDetManufacturer.Text = "Fabricante:";
-            lblDetCountry.Text      = "País:";
-            lblDetLeadTime.Text     = "T. de entrega:";
         }
     }
 }

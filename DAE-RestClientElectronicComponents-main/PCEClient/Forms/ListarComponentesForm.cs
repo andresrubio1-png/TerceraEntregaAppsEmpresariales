@@ -35,6 +35,7 @@ namespace PCEClient.Forms
                 {
                     dgvComponentes.Rows.Add(
                         c.Id,
+                        c.Name,
                         c.PinCount,
                         c.PackageType,
                         c.Voltage,

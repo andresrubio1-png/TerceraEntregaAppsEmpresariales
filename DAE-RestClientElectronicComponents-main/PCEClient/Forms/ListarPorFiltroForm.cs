@@ -74,8 +74,9 @@ namespace PCEClient.Forms
             foreach (var c in results)
             {
                 dgvResultados.Rows.Add(
-                    c.Id, 
-                    c.PinCount, 
+                    c.Id,
+                    c.Name,
+                    c.PinCount,
                     c.PackageType, 
                     c.Voltage,
                     c.Tolerance,

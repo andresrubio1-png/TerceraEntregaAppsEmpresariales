@@ -19,6 +19,7 @@ namespace PCEClient.Forms
             this.lblCount = new System.Windows.Forms.Label();
             this.dgvComponentes = new System.Windows.Forms.DataGridView();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPinCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPackageType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colVoltage = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -59,6 +60,7 @@ namespace PCEClient.Forms
             this.dgvComponentes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvComponentes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colId,
+            this.colName,
             this.colPinCount,
             this.colPackageType,
             this.colVoltage,
@@ -81,7 +83,14 @@ namespace PCEClient.Forms
             this.colId.Name = "colId";
             this.colId.ReadOnly = true;
             this.colId.Width = 45;
-            // 
+            //
+            // colName
+            //
+            this.colName.HeaderText = "Nombre";
+            this.colName.Name = "colName";
+            this.colName.ReadOnly = true;
+            this.colName.Width = 160;
+            //
             // colPinCount
             // 
             this.colPinCount.HeaderText = "Núm. pines";
@@ -160,6 +169,7 @@ namespace PCEClient.Forms
         private System.Windows.Forms.Label   lblCount;
         private System.Windows.Forms.DataGridView dgvComponentes;
         private System.Windows.Forms.DataGridViewTextBoxColumn colId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPinCount;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPackageType;
         private System.Windows.Forms.DataGridViewTextBoxColumn colVoltage;

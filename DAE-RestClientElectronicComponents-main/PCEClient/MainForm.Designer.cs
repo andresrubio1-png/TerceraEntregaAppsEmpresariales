@@ -22,14 +22,16 @@ namespace PCEClient
             // Fabricante
             this.fabricanteToolStripMenuItem          = new System.Windows.Forms.ToolStripMenuItem();
             this.crearFabricanteToolStripMenuItem     = new System.Windows.Forms.ToolStripMenuItem();
-            this.buscarFabricanteToolStripMenuItem    = new System.Windows.Forms.ToolStripMenuItem();
+            this.buscarFabricanteToolStripMenuItem         = new System.Windows.Forms.ToolStripMenuItem();
+            this.buscarFabricantePorNombreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eliminarFabricanteToolStripMenuItem  = new System.Windows.Forms.ToolStripMenuItem();
             this.actualizarFabricanteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listarFabricantesToolStripMenuItem   = new System.Windows.Forms.ToolStripMenuItem();
             // Componente Pasivo
             this.componentePasivoToolStripMenuItem  = new System.Windows.Forms.ToolStripMenuItem();
             this.crearToolStripMenuItem             = new System.Windows.Forms.ToolStripMenuItem();
-            this.buscarToolStripMenuItem            = new System.Windows.Forms.ToolStripMenuItem();
+            this.buscarToolStripMenuItem                    = new System.Windows.Forms.ToolStripMenuItem();
+            this.buscarPorNombreToolStripMenuItem           = new System.Windows.Forms.ToolStripMenuItem();
             this.eliminarToolStripMenuItem          = new System.Windows.Forms.ToolStripMenuItem();
             this.actualizarToolStripMenuItem        = new System.Windows.Forms.ToolStripMenuItem();
             this.listarToolStripMenuItem            = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,6 +66,7 @@ namespace PCEClient
             this.fabricanteToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
                 this.crearFabricanteToolStripMenuItem,
                 this.buscarFabricanteToolStripMenuItem,
+                this.buscarFabricantePorNombreToolStripMenuItem,
                 this.eliminarFabricanteToolStripMenuItem,
                 this.actualizarFabricanteToolStripMenuItem,
                 this.listarFabricantesToolStripMenuItem });
@@ -73,8 +76,11 @@ namespace PCEClient
             this.crearFabricanteToolStripMenuItem.Text   = "Crear";
             this.crearFabricanteToolStripMenuItem.Click += new System.EventHandler(this.crearFabricanteToolStripMenuItem_Click);
             this.buscarFabricanteToolStripMenuItem.Name   = "buscarFabricanteToolStripMenuItem";
-            this.buscarFabricanteToolStripMenuItem.Text   = "Buscar";
+            this.buscarFabricanteToolStripMenuItem.Text   = "Buscar por ID";
             this.buscarFabricanteToolStripMenuItem.Click += new System.EventHandler(this.buscarFabricanteToolStripMenuItem_Click);
+            this.buscarFabricantePorNombreToolStripMenuItem.Name   = "buscarFabricantePorNombreToolStripMenuItem";
+            this.buscarFabricantePorNombreToolStripMenuItem.Text   = "Buscar por nombre";
+            this.buscarFabricantePorNombreToolStripMenuItem.Click += new System.EventHandler(this.buscarFabricantePorNombreToolStripMenuItem_Click);
             this.eliminarFabricanteToolStripMenuItem.Name   = "eliminarFabricanteToolStripMenuItem";
             this.eliminarFabricanteToolStripMenuItem.Text   = "Eliminar";
             this.eliminarFabricanteToolStripMenuItem.Click += new System.EventHandler(this.eliminarFabricanteToolStripMenuItem_Click);
@@ -89,6 +95,7 @@ namespace PCEClient
             this.componentePasivoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
                 this.crearToolStripMenuItem,
                 this.buscarToolStripMenuItem,
+                this.buscarPorNombreToolStripMenuItem,
                 this.eliminarToolStripMenuItem,
                 this.actualizarToolStripMenuItem,
                 this.listarToolStripMenuItem,
@@ -99,8 +106,11 @@ namespace PCEClient
             this.crearToolStripMenuItem.Text   = "Crear";
             this.crearToolStripMenuItem.Click += new System.EventHandler(this.crearToolStripMenuItem_Click);
             this.buscarToolStripMenuItem.Name   = "buscarToolStripMenuItem";
-            this.buscarToolStripMenuItem.Text   = "Buscar";
+            this.buscarToolStripMenuItem.Text   = "Buscar por ID";
             this.buscarToolStripMenuItem.Click += new System.EventHandler(this.buscarToolStripMenuItem_Click);
+            this.buscarPorNombreToolStripMenuItem.Name   = "buscarPorNombreToolStripMenuItem";
+            this.buscarPorNombreToolStripMenuItem.Text   = "Buscar por nombre";
+            this.buscarPorNombreToolStripMenuItem.Click += new System.EventHandler(this.buscarPorNombreToolStripMenuItem_Click);
             this.eliminarToolStripMenuItem.Name   = "eliminarToolStripMenuItem";
             this.eliminarToolStripMenuItem.Text   = "Eliminar";
             this.eliminarToolStripMenuItem.Click += new System.EventHandler(this.eliminarToolStripMenuItem_Click);
@@ -145,12 +155,14 @@ namespace PCEClient
         private System.Windows.Forms.ToolStripMenuItem fabricanteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem crearFabricanteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem buscarFabricanteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem buscarFabricantePorNombreToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem eliminarFabricanteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem actualizarFabricanteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem listarFabricantesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem componentePasivoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem crearToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem buscarToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem buscarPorNombreToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem eliminarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem actualizarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem listarToolStripMenuItem;

@@ -27,6 +27,9 @@ namespace PCEClient
         private void buscarFabricanteToolStripMenuItem_Click(object sender, EventArgs e)
             => ShowChildForm(new BuscarFabricanteForm());
 
+        private void buscarFabricantePorNombreToolStripMenuItem_Click(object sender, EventArgs e)
+            => ShowChildForm(new BuscarFabricantePorNombreForm());
+
         private void eliminarFabricanteToolStripMenuItem_Click(object sender, EventArgs e)
             => ShowChildForm(new EliminarFabricanteForm());
 
@@ -43,11 +46,26 @@ namespace PCEClient
         private void buscarToolStripMenuItem_Click(object sender, EventArgs e)
             => ShowChildForm(new BuscarComponenteForm());
 
+        private void buscarPorNombreToolStripMenuItem_Click(object sender, EventArgs e)
+            => ShowChildForm(new BuscarComponentePorNombreForm());
+
         private void eliminarToolStripMenuItem_Click(object sender, EventArgs e)
-            => ShowChildForm(new EliminarComponenteForm());
+        {
+            using (var selector = new SeleccionarComponentePorNombreForm("Seleccionar Componente a Eliminar"))
+            {
+                if (selector.ShowDialog(this) == DialogResult.OK && selector.SelectedComponent != null)
+                    ShowChildForm(new EliminarComponenteForm(selector.SelectedComponent));
+            }
+        }
 
         private void actualizarToolStripMenuItem_Click(object sender, EventArgs e)
-            => ShowChildForm(new ActualizarComponenteForm());
+        {
+            using (var selector = new SeleccionarComponentePorNombreForm("Seleccionar Componente a Actualizar"))
+            {
+                if (selector.ShowDialog(this) == DialogResult.OK && selector.SelectedComponent != null)
+                    ShowChildForm(new ActualizarComponenteForm(selector.SelectedComponent));
+            }
+        }
 
         private void listarToolStripMenuItem_Click(object sender, EventArgs e)
             => ShowChildForm(new ListarComponentesForm());

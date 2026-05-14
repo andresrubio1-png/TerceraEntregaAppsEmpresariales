@@ -26,6 +26,8 @@ namespace PCEClient.Forms
             this.btnRefrescarFab    = new System.Windows.Forms.Button();
             // Componente
             this.grpComponente  = new System.Windows.Forms.GroupBox();
+            this.lblName        = new System.Windows.Forms.Label();
+            this.txtName        = new System.Windows.Forms.TextBox();
             this.lblPinCount    = new System.Windows.Forms.Label();
             this.txtPinCount    = new System.Windows.Forms.TextBox();
             this.lblPackageType = new System.Windows.Forms.Label();
@@ -89,6 +91,8 @@ namespace PCEClient.Forms
             this.btnRefrescarFab.Click   += new System.EventHandler(this.btnRefrescarFab_Click);
 
             // ── grpComponente ───────────────────────────────────────────────
+            this.grpComponente.Controls.Add(this.lblName);
+            this.grpComponente.Controls.Add(this.txtName);
             this.grpComponente.Controls.Add(this.lblPinCount);
             this.grpComponente.Controls.Add(this.txtPinCount);
             this.grpComponente.Controls.Add(this.lblPackageType);
@@ -103,32 +107,35 @@ namespace PCEClient.Forms
             this.grpComponente.Controls.Add(this.txtUnit);
             this.grpComponente.Location = new System.Drawing.Point(12, 232);
             this.grpComponente.Name     = "grpComponente";
-            this.grpComponente.Size     = new System.Drawing.Size(580, 220);
+            this.grpComponente.Size     = new System.Drawing.Size(580, 255);
             this.grpComponente.Text     = "Datos del Componente";
 
+            // Name
+            this.lblName.AutoSize = true; this.lblName.Location = new System.Drawing.Point(15, 25); this.lblName.Text = "Nombre:";
+            this.txtName.Location = new System.Drawing.Point(170, 22); this.txtName.Size = new System.Drawing.Size(370, 20); this.txtName.Name = "txtName";
             // PinCount
-            this.lblPinCount.AutoSize = true; this.lblPinCount.Location = new System.Drawing.Point(15, 25);  this.lblPinCount.Text = "Núm. de pines:";
-            this.txtPinCount.Location = new System.Drawing.Point(170, 22); this.txtPinCount.Size = new System.Drawing.Size(370, 20); this.txtPinCount.Name = "txtPinCount";
+            this.lblPinCount.AutoSize = true; this.lblPinCount.Location = new System.Drawing.Point(15, 60);  this.lblPinCount.Text = "Núm. de pines:";
+            this.txtPinCount.Location = new System.Drawing.Point(170, 57); this.txtPinCount.Size = new System.Drawing.Size(370, 20); this.txtPinCount.Name = "txtPinCount";
             // PackageType
-            this.lblPackageType.AutoSize = true; this.lblPackageType.Location = new System.Drawing.Point(15, 60); this.lblPackageType.Text = "Encapsulado:";
+            this.lblPackageType.AutoSize = true; this.lblPackageType.Location = new System.Drawing.Point(15, 95); this.lblPackageType.Text = "Encapsulado:";
             this.cboPackageType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboPackageType.Location = new System.Drawing.Point(170, 57); this.cboPackageType.Size = new System.Drawing.Size(370, 21); this.cboPackageType.Name = "cboPackageType";
+            this.cboPackageType.Location = new System.Drawing.Point(170, 92); this.cboPackageType.Size = new System.Drawing.Size(370, 21); this.cboPackageType.Name = "cboPackageType";
             // Voltage
-            this.lblVoltage.AutoSize = true; this.lblVoltage.Location = new System.Drawing.Point(15, 95); this.lblVoltage.Text = "Voltaje (V):";
-            this.txtVoltage.Location = new System.Drawing.Point(170, 92); this.txtVoltage.Size = new System.Drawing.Size(370, 20); this.txtVoltage.Name = "txtVoltage";
+            this.lblVoltage.AutoSize = true; this.lblVoltage.Location = new System.Drawing.Point(15, 130); this.lblVoltage.Text = "Voltaje (V):";
+            this.txtVoltage.Location = new System.Drawing.Point(170, 127); this.txtVoltage.Size = new System.Drawing.Size(370, 20); this.txtVoltage.Name = "txtVoltage";
             // Tolerance
-            this.lblTolerance.AutoSize = true; this.lblTolerance.Location = new System.Drawing.Point(15, 130); this.lblTolerance.Text = "Tolerancia:";
-            this.txtTolerance.Location = new System.Drawing.Point(170, 127); this.txtTolerance.Size = new System.Drawing.Size(370, 20); this.txtTolerance.Name = "txtTolerance";
+            this.lblTolerance.AutoSize = true; this.lblTolerance.Location = new System.Drawing.Point(15, 165); this.lblTolerance.Text = "Tolerancia:";
+            this.txtTolerance.Location = new System.Drawing.Point(170, 162); this.txtTolerance.Size = new System.Drawing.Size(370, 20); this.txtTolerance.Name = "txtTolerance";
             // NominalValue
-            this.lblNominalValue.AutoSize = true; this.lblNominalValue.Location = new System.Drawing.Point(15, 165); this.lblNominalValue.Text = "Valor Nominal:";
-            this.txtNominalValue.Location = new System.Drawing.Point(170, 162); this.txtNominalValue.Size = new System.Drawing.Size(200, 20); this.txtNominalValue.Name = "txtNominalValue";
+            this.lblNominalValue.AutoSize = true; this.lblNominalValue.Location = new System.Drawing.Point(15, 200); this.lblNominalValue.Text = "Valor Nominal:";
+            this.txtNominalValue.Location = new System.Drawing.Point(170, 197); this.txtNominalValue.Size = new System.Drawing.Size(200, 20); this.txtNominalValue.Name = "txtNominalValue";
             // Unit
-            this.lblUnit.AutoSize = true; this.lblUnit.Location = new System.Drawing.Point(380, 165); this.lblUnit.Text = "Unidad:";
-            this.txtUnit.Location = new System.Drawing.Point(430, 162); this.txtUnit.Size = new System.Drawing.Size(110, 20); this.txtUnit.Name = "txtUnit";
+            this.lblUnit.AutoSize = true; this.lblUnit.Location = new System.Drawing.Point(380, 200); this.lblUnit.Text = "Unidad:";
+            this.txtUnit.Location = new System.Drawing.Point(430, 197); this.txtUnit.Size = new System.Drawing.Size(110, 20); this.txtUnit.Name = "txtUnit";
 
             // ── btnCrear ───────────────────────────────────────────────────
             this.btnCrear.Enabled  = false;
-            this.btnCrear.Location = new System.Drawing.Point(12, 465);
+            this.btnCrear.Location = new System.Drawing.Point(12, 500);
             this.btnCrear.Name     = "btnCrear";
             this.btnCrear.Size     = new System.Drawing.Size(580, 35);
             this.btnCrear.Text     = "Crear Componente";
@@ -138,7 +145,7 @@ namespace PCEClient.Forms
             // ── CrearComponenteForm ────────────────────────────────────────
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode       = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize          = new System.Drawing.Size(606, 515);
+            this.ClientSize          = new System.Drawing.Size(606, 550);
             this.Controls.Add(this.grpFabricante);
             this.Controls.Add(this.grpComponente);
             this.Controls.Add(this.btnCrear);
@@ -164,6 +171,8 @@ namespace PCEClient.Forms
         private System.Windows.Forms.Label                 lblFabSeleccionado;
         private System.Windows.Forms.Button                btnRefrescarFab;
         private System.Windows.Forms.GroupBox              grpComponente;
+        private System.Windows.Forms.Label                 lblName;
+        private System.Windows.Forms.TextBox               txtName;
         private System.Windows.Forms.Label                 lblPinCount;
         private System.Windows.Forms.TextBox               txtPinCount;
         private System.Windows.Forms.Label                 lblPackageType;

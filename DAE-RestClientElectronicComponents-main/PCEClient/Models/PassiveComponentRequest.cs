@@ -5,6 +5,9 @@ namespace PCEClient.Models
 {
     public class PassiveComponentRequest
     {
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
         [JsonProperty("pinCount")]
         public int PinCount { get; set; }
 

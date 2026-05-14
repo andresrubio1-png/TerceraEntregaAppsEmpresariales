@@ -86,6 +86,7 @@ namespace PCEClient.Forms
             {
                 var request = new PassiveComponentRequest
                 {
+                    Name            = txtName.Text.Trim(),
                     PinCount        = int.Parse(txtPinCount.Text),
                     PackageType     = (PackageType)cboPackageType.SelectedItem,
                     Voltage         = double.Parse(txtVoltage.Text),
@@ -123,6 +124,11 @@ namespace PCEClient.Forms
                 MessageBox.Show("Debe seleccionar un fabricante.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
+            if (string.IsNullOrWhiteSpace(txtName.Text))
+            {
+                MessageBox.Show("El nombre no puede estar vacío.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
             if (!int.TryParse(txtPinCount.Text, out _))
             {
                 MessageBox.Show("Pin Count debe ser un número entero.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -153,6 +159,7 @@ namespace PCEClient.Forms
 
         private void ClearComponentFields()
         {
+            txtName.Clear();
             txtPinCount.Clear();
             txtVoltage.Clear();
             txtTolerance.Clear();

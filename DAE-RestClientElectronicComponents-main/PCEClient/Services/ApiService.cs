@@ -48,6 +48,14 @@ namespace PCEClient.Services
             return JsonConvert.DeserializeObject<PassiveComponent>(await response.Content.ReadAsStringAsync());
         }
 
+        public async Task<List<PassiveComponent>> GetByNameAsync(string name)
+        {
+            var response = await _httpClient.GetAsync($"{BaseUrl}/search?name={Uri.EscapeDataString(name)}");
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound) return new List<PassiveComponent>();
+            response.EnsureSuccessStatusCode();
+            return JsonConvert.DeserializeObject<List<PassiveComponent>>(await response.Content.ReadAsStringAsync());
+        }
+
         public async Task<List<PassiveComponent>> GetByPackageTypeAsync(PackageType packageType)
         {
             var response = await _httpClient.GetAsync($"{BaseUrl}?packageType={packageType}");
@@ -100,6 +108,14 @@ namespace PCEClient.Services
         public async Task<Manufacturer> GetManufacturerByIdAsync(int id)
         {
             var response = await _httpClient.GetAsync($"{ManufacturerUrl}/{id}");
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound) return null;
+            response.EnsureSuccessStatusCode();
+            return JsonConvert.DeserializeObject<Manufacturer>(await response.Content.ReadAsStringAsync());
+        }
+
+        public async Task<Manufacturer> GetManufacturerByNameAsync(string name)
+        {
+            var response = await _httpClient.GetAsync($"{ManufacturerUrl}/search?name={Uri.EscapeDataString(name)}");
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound) return null;
             response.EnsureSuccessStatusCode();
             return JsonConvert.DeserializeObject<Manufacturer>(await response.Content.ReadAsStringAsync());

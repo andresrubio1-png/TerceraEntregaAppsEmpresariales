@@ -80,6 +80,12 @@
     <Compile Include="Forms\BuscarFabricanteForm.Designer.cs">
       <DependentUpon>BuscarFabricanteForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\BuscarFabricantePorNombreForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\BuscarFabricantePorNombreForm.Designer.cs">
+      <DependentUpon>BuscarFabricantePorNombreForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\EliminarFabricanteForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,6 +116,18 @@
     </Compile>
     <Compile Include="Forms\BuscarComponenteForm.Designer.cs">
       <DependentUpon>BuscarComponenteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\BuscarComponentePorNombreForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\BuscarComponentePorNombreForm.Designer.cs">
+      <DependentUpon>BuscarComponentePorNombreForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SeleccionarComponentePorNombreForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SeleccionarComponentePorNombreForm.Designer.cs">
+      <DependentUpon>SeleccionarComponentePorNombreForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\EliminarComponenteForm.cs">
       <SubType>Form</SubType>

@@ -11,13 +11,18 @@ namespace PCEClient.Forms
         private PassiveComponent _componenteEncontrado;
         private int? _selectedManufacturerId = null;
 
-        public ActualizarComponenteForm()
+        public ActualizarComponenteForm(PassiveComponent componente)
         {
             InitializeComponent();
             cboPackageType.DataSource = Enum.GetValues(typeof(PackageType));
-            SetFieldsEnabled(false);
-            btnActualizar.Visible = false;
             ManufacturerEventManager.Instance.Subscribe(this);
+
+            _componenteEncontrado = componente ?? throw new ArgumentNullException(nameof(componente));
+
+            lblComponente.Text = $"Editando componente ID {componente.Id} — {componente.Name}";
+
+            LoadFields(_componenteEncontrado);
+            LoadManufacturers(_componenteEncontrado.Manufacturer?.Id);
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)
@@ -29,7 +34,7 @@ namespace PCEClient.Forms
         public void OnManufacturersChanged()
         {
             if (InvokeRequired) { Invoke(new Action(OnManufacturersChanged)); return; }
-            LoadManufacturers();
+            LoadManufacturers(_selectedManufacturerId);
         }
 
         private async void LoadManufacturers(int? preSelectId = null)
@@ -44,7 +49,6 @@ namespace PCEClient.Forms
                 foreach (var m in list)
                 {
                     int rowIdx = dgvFabricantes.Rows.Add(m.Id, m.Name, m.Country, m.AverageLeadTime);
-                    // Pre-seleccionar el fabricante actual del componente
                     if (preSelectId.HasValue && m.Id == preSelectId.Value)
                     {
                         dgvFabricantes.Rows[rowIdx].Selected = true;
@@ -75,54 +79,6 @@ namespace PCEClient.Forms
             }
         }
 
-        private void SetFieldsEnabled(bool enabled)
-        {
-            txtPinCount.Enabled    = enabled;
-            cboPackageType.Enabled = enabled;
-            txtVoltage.Enabled     = enabled;
-            txtTolerance.Enabled   = enabled;
-            txtNominalValue.Enabled = enabled;
-            txtUnit.Enabled        = enabled;
-            dgvFabricantes.Enabled = enabled;
-        }
-
-        private async void btnBuscar_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (!int.TryParse(txtId.Text, out int id))
-                {
-                    MessageBox.Show("Ingrese un ID válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                btnBuscar.Enabled = false;
-                _componenteEncontrado = await ApiService.Instance.GetByIdAsync(id);
-                btnBuscar.Enabled = true;
-
-                if (_componenteEncontrado == null)
-                {
-                    MessageBox.Show("No se encontró un componente con ese ID.", "No encontrado",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    SetFieldsEnabled(false);
-                    btnActualizar.Visible = false;
-                    return;
-                }
-
-                LoadFields(_componenteEncontrado);
-                // Cargar fabricantes y pre-seleccionar el actual
-                await System.Threading.Tasks.Task.Run(() => { });
-                LoadManufacturers(_componenteEncontrado.Manufacturer?.Id);
-                SetFieldsEnabled(true);
-                btnActualizar.Visible = true;
-            }
-            catch (Exception ex)
-            {
-                btnBuscar.Enabled = true;
-                MessageBox.Show($"Error al buscar:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         private async void btnActualizar_Click(object sender, EventArgs e)
         {
             if (_componenteEncontrado == null) return;
@@ -138,6 +94,7 @@ namespace PCEClient.Forms
             {
                 var request = new PassiveComponentRequest
                 {
+                    Name           = txtName.Text.Trim(),
                     PinCount       = int.Parse(txtPinCount.Text),
                     PackageType    = (PackageType)cboPackageType.SelectedItem,
                     Voltage        = double.Parse(txtVoltage.Text),
@@ -177,6 +134,7 @@ namespace PCEClient.Forms
 
         private void LoadFields(PassiveComponent c)
         {
+            txtName.Text         = c.Name ?? "";
             txtPinCount.Text     = c.PinCount.ToString();
             cboPackageType.SelectedItem = c.PackageType;
             txtVoltage.Text      = c.Voltage.ToString();
@@ -192,6 +150,8 @@ namespace PCEClient.Forms
                 MessageBox.Show("Debe seleccionar un fabricante.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
+            if (string.IsNullOrWhiteSpace(txtName.Text))
+            { MessageBox.Show("El nombre no puede estar vacío.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning); return false; }
             if (!int.TryParse(txtPinCount.Text, out _))
             { MessageBox.Show("Núm. de pines debe ser un número entero.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning); return false; }
             if (!double.TryParse(txtVoltage.Text, out _))
