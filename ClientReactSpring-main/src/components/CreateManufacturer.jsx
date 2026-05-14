@@ -16,28 +16,30 @@ function CreateManufacturer() {
         });
     };
 
-    const handleSubmit = (e) => {
+const handleSubmit = (e) => {
+    e.preventDefault();
 
-        e.preventDefault();
-
-        const payload = {
-            name: form.name,
-            country: form.country,
-            averageLeadTime: parseFloat(form.averageLeadTime)
-        };
-
-        manufacturerService.create(payload)
-            .then(() => {
-                alert("Fabricante creado");
-
-                setForm({
-                    name: "",
-                    country: "",
-                    averageLeadTime: ""
-                });
-            })
-            .catch(err => console.error(err));
+    const payload = {
+        name: form.name,
+        country: form.country,
+        averageLeadTime: parseFloat(form.averageLeadTime)
     };
+
+    manufacturerService.create(payload)
+        .then((res) => {
+            console.log("res.data:", res.data);
+            alert(`Fabricante creado con ID: ${res.data.id}`);
+            setForm({
+                name: "",
+                country: "",
+                averageLeadTime: ""
+            });
+        })
+        .catch(err => {
+            alert("Error al crear el fabricante");
+            console.error(err);
+        });
+};
 
     return (
 
