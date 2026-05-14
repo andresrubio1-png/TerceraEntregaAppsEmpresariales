@@ -19,3 +19,6 @@ export const remove = (id) =>
 export const getById = (id) =>
     axios.get(`${API_URL}/${id}`);
 
+export const getByName = (name) =>
+    axios.get(`${API_URL}/search`, { params: { name } });
+

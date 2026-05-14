@@ -3,8 +3,20 @@ import * as passiveService from "../services/passiveService";
 import * as manufacturerService from "../services/manufacturerService";
 
 function CreatePassive() {
-    const packageTypes = ["SMD", "DIP", "SIP", "QFP", "BGA", "SOT", "TO", "AXIAL"];
+
+    const packageTypes = [
+        "SMD",
+        "DIP",
+        "SIP",
+        "QFP",
+        "BGA",
+        "SOT",
+        "TO",
+        "AXIAL"
+    ];
+
     const [form, setForm] = useState({
+        name: "",
         pinCount: "",
         packageType: "",
         voltage: "",
@@ -13,14 +25,15 @@ function CreatePassive() {
         value: "",
         unit: ""
     });
-    //Cargar Fabricantes
+
     const [manufacturers, setManufacturers] = useState([]);
+
     useEffect(() => {
         manufacturerService.getAll()
             .then(res => setManufacturers(res.data))
             .catch(err => console.error(err));
     }, []);
-    //Inputs
+
     const handleChange = (e) => {
         setForm({
             ...form,
@@ -28,10 +41,11 @@ function CreatePassive() {
         });
     };
 
-    //Post
     const handleSubmit = (e) => {
         e.preventDefault();
+
         const payload = {
+            name: form.name,
             pinCount: parseInt(form.pinCount),
             packageType: form.packageType,
             voltage: parseFloat(form.voltage),
@@ -42,49 +56,138 @@ function CreatePassive() {
                 unit: form.unit
             }
         };
+
         passiveService.create(payload)
-            .then(() => {
-                alert("Componente Creado");
-            })
+            .then(() => alert("Componente Creado"))
             .catch(err => console.error(err));
     };
 
-
     return (
-        <form onSubmit={handleSubmit}>
-            <h2>Crear Componente</h2>
-            <input name="pinCount" placeholder="Pines" onChange={handleChange} />
-            <select name="packageType" onChange={handleChange}>
-                <option value="">Seleccione tipo</option>
+        <div className="page-container">
 
-                {packageTypes.map(type => (
-                    <option key={type} value={type}>
-                        {type}
-                    </option>
-                ))}
-            </select>
-            <input name="voltage" placeholder="Voltaje" onChange={handleChange} />
-            <input name="tolerance" placeholder="Tolerancia" onChange={handleChange} />
+            <form className="horizontal-form" onSubmit={handleSubmit}>
 
-            {/* SELECT DE FABRICANTES*/}
-            <select name="manufacturerId" onChange={handleChange}>
-                <option value="">Seleccione fabricante</option>
-                {manufacturers.map(m => (
-                    <option key={m.id} value={m.id}>
-                        {m.name}
-                    </option>
-                ))}
-            </select>
+                <div className="form-header">
+                    <h2>Crear Componente Electrónico</h2>
+                </div>
 
-            {/* VALOR NOMINAL */}
-            <input name="value" placeholder="Valor nominal" onChange={handleChange} />
-            <input name="unit" placeholder="Unidad (ohm, F...)" onChange={handleChange} />
+                <div className="horizontal-grid">
 
-            <button type="submit">Crear</button>
-        </form>
+                    <div className="form-group">
+                        <label>Nombre</label>
+                        <input
+                            name="name"
+                            placeholder="Resistencia"
+                            value={form.name}
+                            onChange={handleChange}
+                        />
+                    </div>
 
+                    <div className="form-group">
+                        <label>Pines</label>
+                        <input
+                            type="number"
+                            name="pinCount"
+                            placeholder="8"
+                            value={form.pinCount}
+                            onChange={handleChange}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Encapsulado</label>
+                        <select
+                            name="packageType"
+                            value={form.packageType}
+                            onChange={handleChange}
+                        >
+                            <option value="">
+                                Seleccione
+                            </option>
+
+                            {packageTypes.map(type => (
+                                <option key={type} value={type}>
+                                    {type}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="form-group">
+                        <label>Voltaje</label>
+                        <input
+                            type="number"
+                            name="voltage"
+                            placeholder="5"
+                            value={form.voltage}
+                            onChange={handleChange}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Tolerancia</label>
+                        <input
+                            type="number"
+                            step="0.01"
+                            name="tolerance"
+                            placeholder="0.05"
+                            value={form.tolerance}
+                            onChange={handleChange}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Fabricante</label>
+                        <select
+                            name="manufacturerId"
+                            value={form.manufacturerId}
+                            onChange={handleChange}
+                        >
+                            <option value="">
+                                Seleccione
+                            </option>
+
+                            {manufacturers.map(m => (
+                                <option key={m.id} value={m.id}>
+                                    {m.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="form-group">
+                        <label>Valor Nominal</label>
+                        <input
+                            type="number"
+                            name="value"
+                            placeholder="10000"
+                            value={form.value}
+                            onChange={handleChange}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Unidad</label>
+                        <input
+                            name="unit"
+                            placeholder="Ω"
+                            value={form.unit}
+                            onChange={handleChange}
+                        />
+                    </div>
+
+                </div>
+
+                <div className="form-actions">
+                    <button type="submit">
+                        Crear Componente
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
     );
 }
-
 
 export default CreatePassive;
