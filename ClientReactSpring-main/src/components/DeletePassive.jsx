@@ -3,25 +3,60 @@ import * as passiveService from "../services/passiveService";
 
 function DeletePassive() {
 
-    const [id, setId] = useState("");
-    const [result, setResult] = useState(null);
+    const [mode, setMode] = useState("id");
+
+    const [query, setQuery] = useState("");
+
+    const [results, setResults] = useState([]);
 
     const handleSearch = () => {
 
-        if (!id) {
-            alert("Ingrese un ID");
+        if (!query) {
+
+            alert("Ingrese un valor");
+            return;
+
+        }
+
+        // BUSCAR POR ID
+        if (mode === "id") {
+
+            passiveService.getById(query)
+
+                .then(res => {
+
+                    setResults([res.data]);
+
+                })
+
+                .catch(() => {
+
+                    alert("No encontrado");
+                    setResults([]);
+
+                });
+
             return;
         }
 
-        passiveService.getById(id)
-            .then(res => setResult(res.data))
+        // BUSCAR POR NOMBRE
+        passiveService.getByName(query)
+
+            .then(res => {
+
+                setResults(res.data);
+
+            })
+
             .catch(() => {
+
                 alert("No encontrado");
-                setResult(null);
+                setResults([]);
+
             });
     };
 
-    const handleDelete = () => {
+    const handleDelete = (id) => {
 
         const confirmDelete = window.confirm(
             "¿Seguro que deseas eliminar este componente?"
@@ -30,14 +65,17 @@ function DeletePassive() {
         if (!confirmDelete) return;
 
         passiveService.remove(id)
+
             .then(() => {
 
                 alert("Eliminado correctamente");
 
-                setResult(null);
-                setId("");
+                setResults(
+                    results.filter(r => r.id !== id)
+                );
 
             })
+
             .catch(err => console.error(err));
     };
 
@@ -51,6 +89,54 @@ function DeletePassive() {
                     <h2>Eliminar Componente</h2>
                 </div>
 
+                {/* MODO DE BUSQUEDA */}
+
+                <div
+                    style={{
+                        display: "flex",
+                        gap: "20px",
+                        marginBottom: "20px"
+                    }}
+                >
+
+                    <label>
+
+                        <input
+                            type="radio"
+                            checked={mode === "id"}
+                            onChange={() => {
+                                setMode("id");
+                                setQuery("");
+                                setResults([]);
+                            }}
+                        />
+
+                        {" "}
+                        Buscar por ID
+
+                    </label>
+
+                    <label>
+
+                        <input
+                            type="radio"
+                            checked={mode === "name"}
+                            onChange={() => {
+                                setMode("name");
+                                setQuery("");
+                                setResults([]);
+                            }}
+                        />
+
+                        {" "}
+                        Buscar por Nombre
+
+                    </label>
+
+                </div>
+
+                {/* BUSQUEDA */}
+
                 <div
                     className="horizontal-grid"
                     style={{
@@ -61,13 +147,23 @@ function DeletePassive() {
 
                     <div className="form-group">
 
-                        <label>ID del Componente</label>
+                        <label>
+                            {mode === "id"
+                                ? "ID del Componente"
+                                : "Nombre del Componente"}
+                        </label>
 
                         <input
-                            type="number"
-                            placeholder="Ingrese ID"
-                            value={id}
-                            onChange={(e) => setId(e.target.value)}
+                            type={mode === "id" ? "number" : "text"}
+                            placeholder={
+                                mode === "id"
+                                    ? "Ingrese ID"
+                                    : "Ingrese nombre"
+                            }
+                            value={query}
+                            onChange={(e) =>
+                                setQuery(e.target.value)
+                            }
                         />
 
                     </div>
@@ -82,86 +178,54 @@ function DeletePassive() {
 
                 </div>
 
-                {result && (
+                {/* RESULTADOS */}
 
-                    <>
+                {results.length > 0 && (
 
-                        <table style={{ marginTop: "30px" }}>
+                    <table style={{ marginTop: "30px" }}>
 
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nombre </th>
-                                    <th>Pines</th>
-                                    <th>Encapsulado</th>
-                                    <th>Voltaje</th>
-                                    <th>Tolerancia</th>
-                                    <th>Valor Nominal</th>
-                                    <th>Fecha</th>
-                                </tr>
-                            </thead>
+                        <thead>
 
-                            <tbody>
+                            <tr>
 
-                                <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Pines</th>
+                                <th>Encapsulado</th>
+                                <th>Voltaje</th>
+                                <th>Fabricante</th>
+                                <th>Acción</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {results.map(result => (
+
+                                <tr key={result.id}>
 
                                     <td>{result.id}</td>
+
                                     <td>{result.name}</td>
+
                                     <td>{result.pinCount}</td>
 
                                     <td>{result.packageType}</td>
 
                                     <td>{result.voltage}</td>
 
-                                    <td>{result.tolerance}</td>
-
-                                    <td>
-                                        {result.nominalValue?.value}
-                                        {" "}
-                                        {result.nominalValue?.unit}
-                                    </td>
-
-                                    <td>
-                                        {result.createdAt?.split("T")[0]}
-                                    </td>
-
-                                </tr>
-
-                            </tbody>
-
-                        </table>
-
-                        <table style={{ marginTop: "20px" }}>
-
-                            <thead>
-                                <tr>
-                                    <th>Fabricante</th>
-                                    <th>País</th>
-                                    <th>Lead Time</th>
-                                    <th>Acción</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-
-                                <tr>
-
                                     <td>
                                         {result.manufacturer?.name}
                                     </td>
 
                                     <td>
-                                        {result.manufacturer?.country}
-                                    </td>
-
-                                    <td>
-                                        {result.manufacturer?.averageLeadTime}
-                                    </td>
-
-                                    <td>
 
                                         <button
-                                            onClick={handleDelete}
+                                            onClick={() =>
+                                                handleDelete(result.id)
+                                            }
                                             style={{
                                                 background: "#dc2626"
                                             }}
@@ -173,11 +237,11 @@ function DeletePassive() {
 
                                 </tr>
 
-                            </tbody>
+                            ))}
 
-                        </table>
+                        </tbody>
 
-                    </>
+                    </table>
 
                 )}
 

@@ -58,8 +58,12 @@ function CreatePassive() {
         };
 
         passiveService.create(payload)
-            .then(() => alert("Componente Creado"))
-            .catch(err => console.error(err));
+    .then((res) => {
+        console.log("Response completa:", res);
+        console.log("res.data:", res.data);
+        alert(`Componente creado con ID: ${res.data.id}`);
+    })
+    .catch(err => console.error(err));
     };
 
     return (

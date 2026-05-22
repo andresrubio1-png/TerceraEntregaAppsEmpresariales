@@ -4,21 +4,54 @@ import * as passiveService from "../services/passiveService";
 function SearchPassive() {
 
     const [mode, setMode] = useState("id");
+
     const [query, setQuery] = useState("");
+
     const [result, setResult] = useState(null);
+
+    const [results, setResults] = useState([]);
 
     const handleSearch = () => {
 
-        const service =
-            mode === "id"
-                ? passiveService.getById(query)
-                : passiveService.getByName(query);
+        // BUSQUEDA POR ID
+        if (mode === "id") {
 
-        service
-            .then(res => setResult(res.data))
-            .catch(() => {
-                alert("No encontrado");
+            passiveService.getById(query)
+                .then(res => {
+
+                    setResult(res.data);
+
+                    setResults([]);
+
+                })
+                .catch(() => {
+
+                    alert("No encontrado");
+
+                    setResult(null);
+
+                    setResults([]);
+
+                });
+
+            return;
+        }
+
+        // BUSQUEDA POR NOMBRE
+        passiveService.getByName(query)
+            .then(res => {
+
+                setResults(res.data);
+
                 setResult(null);
+
+            })
+            .catch(() => {
+
+                alert("No encontrado");
+
+                setResults([]);
+
             });
     };
 
@@ -35,53 +68,48 @@ function SearchPassive() {
                 <div
                     className="horizontal-grid"
                     style={{
-                        gridTemplateColumns:
-                            "220px 1fr 180px",
+                        gridTemplateColumns: "140px 140px 1fr 180px",
                         alignItems: "end"
                     }}
                 >
 
-                    {/* MODO */}
-
                     <div className="form-group">
 
-                        <label>Tipo de búsqueda</label>
+                        <label>
 
-                        <select
-                            value={mode}
-                            onChange={(e) =>
-                                setMode(e.target.value)
-                            }
-                        >
+                            <input
+                                type="radio"
+                                checked={mode === "id"}
+                                onChange={() => setMode("id")}
+                            />
 
-                            <option value="id">
-                                Por ID
-                            </option>
+                            {" "}Por ID
 
-                            <option value="name">
-                                Por Nombre
-                            </option>
-
-                        </select>
+                        </label>
 
                     </div>
-
-                    {/* INPUT */}
 
                     <div className="form-group">
 
                         <label>
-                            {mode === "id"
-                                ? "ID"
-                                : "Nombre"}
+
+                            <input
+                                type="radio"
+                                checked={mode === "name"}
+                                onChange={() => setMode("name")}
+                            />
+
+                            {" "}Por Nombre
+
                         </label>
 
+                    </div>
+
+                    <div className="form-group">
+
+                        <label>Buscar</label>
+
                         <input
-                            type={
-                                mode === "id"
-                                    ? "number"
-                                    : "text"
-                            }
                             placeholder={
                                 mode === "id"
                                     ? "Ingrese ID"
@@ -95,8 +123,6 @@ function SearchPassive() {
 
                     </div>
 
-                    {/* BOTÓN */}
-
                     <div className="form-actions">
 
                         <button onClick={handleSearch}>
@@ -107,117 +133,96 @@ function SearchPassive() {
 
                 </div>
 
+                {/* RESULTADO POR ID */}
+
                 {result && (
 
-                    <>
+                    <div
+                        className="horizontal-form"
+                        style={{
+                            marginTop: "30px"
+                        }}
+                    >
 
-                        {/* COMPONENTE */}
+                        <h3>
+                            Detalles del componente
+                        </h3>
 
-                        <table style={{ marginTop: "30px" }}>
+                        <p><strong>ID:</strong> {result.id}</p>
 
-                            <thead>
+                        <p><strong>Nombre:</strong> {result.name}</p>
 
-                                <tr>
+                        <p><strong>Pines:</strong> {result.pinCount}</p>
 
-                                    <th>ID</th>
+                        <p><strong>Encapsulado:</strong> {result.packageType}</p>
 
-                                    <th>Nombre</th>
+                        <p><strong>Voltaje:</strong> {result.voltage}</p>
 
-                                    <th>Pines</th>
+                        <p><strong>Tolerancia:</strong> {result.tolerance}</p>
 
-                                    <th>Encapsulado</th>
+                        <p>
+                            <strong>Valor Nominal:</strong>{" "}
+                            {result.nominalValue.value} {result.nominalValue.unit}
+                        </p>
 
-                                    <th>Voltaje</th>
+                    </div>
 
-                                    <th>Tolerancia</th>
+                )}
 
-                                    <th>Valor Nominal</th>
+                {/* RESULTADOS POR NOMBRE */}
 
-                                    <th>Fecha</th>
+                {results.length > 0 && (
 
-                                </tr>
+                    <table style={{ marginTop: "30px" }}>
 
-                            </thead>
+                        <thead>
 
-                            <tbody>
+                            <tr>
 
-                                <tr>
+                                <th>ID</th>
 
-                                    <td>{result.id}</td>
-                                    
-                                    <td>{result.name}</td>
+                                <th>Nombre</th>
 
-                                    <td>{result.pinCount}</td>
+                                <th>Encapsulado</th>
 
-                                    <td>{result.packageType}</td>
+                                <th>Voltaje</th>
 
-                                    <td>{result.voltage}</td>
+                                <th>Fabricante</th>
 
-                                    <td>{result.tolerance}</td>
+                            </tr>
 
-                                    <td>
-                                        {result.nominalValue?.value}
-                                        {" "}
-                                        {result.nominalValue?.unit}
-                                    </td>
+                        </thead>
 
-                                    <td>
-                                        {result.createdAt?.split("T")[0]}
-                                    </td>
+                        <tbody>
 
-                                </tr>
+                            {results.map(c => (
 
-                            </tbody>
+                                <tr key={c.id}>
 
-                        </table>
+                                    <td>{c.id}</td>
 
-                        {/* FABRICANTE */}
+                                    <td>{c.name}</td>
 
-                        <table style={{ marginTop: "20px" }}>
+                                    <td>{c.packageType}</td>
 
-                            <thead>
+                                    <td>{c.voltage}V</td>
 
-                                <tr>
-
-                                    <th>Fabricante</th>
-
-                                    <th>País</th>
-
-                                    <th>Lead Time</th>
+                                    <td>{c.manufacturer?.name}</td>
 
                                 </tr>
 
-                            </thead>
+                            ))}
 
-                            <tbody>
+                        </tbody>
 
-                                <tr>
-
-                                    <td>
-                                        {result.manufacturer?.name}
-                                    </td>
-
-                                    <td>
-                                        {result.manufacturer?.country}
-                                    </td>
-
-                                    <td>
-                                        {result.manufacturer?.averageLeadTime}
-                                    </td>
-
-                                </tr>
-
-                            </tbody>
-
-                        </table>
-
-                    </>
+                    </table>
 
                 )}
 
             </div>
 
         </div>
+
     );
 }
 
