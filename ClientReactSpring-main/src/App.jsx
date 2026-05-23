@@ -10,6 +10,7 @@ import './App.css'
 
 import PassiveComponentsPage from "./pages/PassiveComponentsPage";
 import ManufacturersPage from "./pages/ManufacturersPage";
+import SupplyContractPage from "./pages/SupplyContractPage";
 
 function Navigation() {
 
@@ -47,6 +48,19 @@ function Navigation() {
           Componentes
         </Link>
 
+
+        <Link
+          to="/contracts"
+          className={
+            location.pathname === "/contracts"
+              ? "nav-link active"
+              : "nav-link"
+          }
+        >
+          Contrato
+        </Link>
+
+
       </nav>
 
     </header>
@@ -75,6 +89,12 @@ function App() {
             path="/manufacturers"
             element={<ManufacturersPage />}
           />
+
+          <Route
+            path="/contracts"
+            element={<SupplyContractPage />}
+          />
+
 
           <Route
             path="*"
