@@ -63,10 +63,14 @@
     <Compile Include="Models\PassiveComponentRequest.cs" />
     <Compile Include="Models\Manufacturer.cs" />
     <Compile Include="Models\ManufacturerRequest.cs" />
+    <Compile Include="Models\ContractStatus.cs" />
+    <Compile Include="Models\SupplyContract.cs" />
+    <Compile Include="Models\SupplyContractRequest.cs" />
     <!-- Services -->
     <Compile Include="Services\ApiService.cs" />
     <Compile Include="Services\ComponentEventManager.cs" />
     <Compile Include="Services\ManufacturerEventManager.cs" />
+    <Compile Include="Services\SupplyContractEventManager.cs" />
     <!-- Forms: Fabricante -->
     <Compile Include="Forms\CrearFabricanteForm.cs">
       <SubType>Form</SubType>
@@ -158,6 +162,49 @@
     </Compile>
     <Compile Include="Forms\AcercaDeForm.Designer.cs">
       <DependentUpon>AcercaDeForm.cs</DependentUpon>
+    </Compile>
+    <!-- Forms: Contratos -->
+    <Compile Include="Forms\CrearContratoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CrearContratoForm.Designer.cs">
+      <DependentUpon>CrearContratoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\BuscarContratoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\BuscarContratoForm.Designer.cs">
+      <DependentUpon>BuscarContratoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ListarContratosForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ListarContratosForm.Designer.cs">
+      <DependentUpon>ListarContratosForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ListarContratosPorFiltroForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ListarContratosPorFiltroForm.Designer.cs">
+      <DependentUpon>ListarContratosPorFiltroForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SeleccionarContratoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SeleccionarContratoForm.Designer.cs">
+      <DependentUpon>SeleccionarContratoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ActualizarContratoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ActualizarContratoForm.Designer.cs">
+      <DependentUpon>ActualizarContratoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\EliminarContratoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EliminarContratoForm.Designer.cs">
+      <DependentUpon>EliminarContratoForm.cs</DependentUpon>
     </Compile>
     <!-- Other -->
     <Compile Include="Program.cs" />

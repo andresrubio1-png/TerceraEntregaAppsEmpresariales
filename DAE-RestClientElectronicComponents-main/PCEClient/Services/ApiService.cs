@@ -16,6 +16,7 @@ namespace PCEClient.Services
         private readonly HttpClient _httpClient;
         private const string BaseUrl        = "http://localhost:8080/components/passive";
         private const string ManufacturerUrl = "http://localhost:8080/manufacturers";
+        private const string ContractUrl    = "http://localhost:8080/contracts";
 
         private ApiService()
         {
@@ -132,6 +133,57 @@ namespace PCEClient.Services
         public async Task<bool> DeleteManufacturerAsync(int id)
         {
             var response = await _httpClient.DeleteAsync($"{ManufacturerUrl}/{id}");
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound) return false;
+            response.EnsureSuccessStatusCode();
+            return true;
+        }
+
+        // ── Supply Contracts ──────────────────────────────────────────────────
+
+        public async Task<SupplyContract> CreateContractAsync(SupplyContractRequest request)
+        {
+            var response = await _httpClient.PostAsync(ContractUrl, ToJson(request));
+            response.EnsureSuccessStatusCode();
+            return JsonConvert.DeserializeObject<SupplyContract>(await response.Content.ReadAsStringAsync());
+        }
+
+        public async Task<List<SupplyContract>> GetAllContractsAsync(
+            int? manufacturerId = null,
+            ContractStatus? status = null,
+            double? minValue = null,
+            double? maxValue = null)
+        {
+            var queryParams = new List<string>();
+            if (manufacturerId.HasValue) queryParams.Add($"manufacturerId={manufacturerId.Value}");
+            if (status.HasValue)         queryParams.Add($"status={status.Value}");
+            if (minValue.HasValue)       queryParams.Add($"minValue={minValue.Value}");
+            if (maxValue.HasValue)       queryParams.Add($"maxValue={maxValue.Value}");
+
+            var url = ContractUrl + (queryParams.Count > 0 ? "?" + string.Join("&", queryParams) : "");
+            var response = await _httpClient.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+            return JsonConvert.DeserializeObject<List<SupplyContract>>(await response.Content.ReadAsStringAsync());
+        }
+
+        public async Task<SupplyContract> GetContractByNumberAsync(string contractNumber)
+        {
+            var response = await _httpClient.GetAsync($"{ContractUrl}/{Uri.EscapeDataString(contractNumber)}");
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound) return null;
+            response.EnsureSuccessStatusCode();
+            return JsonConvert.DeserializeObject<SupplyContract>(await response.Content.ReadAsStringAsync());
+        }
+
+        public async Task<SupplyContract> UpdateContractAsync(string contractNumber, SupplyContractRequest request)
+        {
+            var response = await _httpClient.PutAsync($"{ContractUrl}/{Uri.EscapeDataString(contractNumber)}", ToJson(request));
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound) return null;
+            response.EnsureSuccessStatusCode();
+            return JsonConvert.DeserializeObject<SupplyContract>(await response.Content.ReadAsStringAsync());
+        }
+
+        public async Task<bool> DeleteContractAsync(string contractNumber)
+        {
+            var response = await _httpClient.DeleteAsync($"{ContractUrl}/{Uri.EscapeDataString(contractNumber)}");
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound) return false;
             response.EnsureSuccessStatusCode();
             return true;

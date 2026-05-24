@@ -73,6 +73,37 @@ namespace PCEClient
         private void listarPorFiltroToolStripMenuItem_Click(object sender, EventArgs e)
             => ShowChildForm(new ListarPorFiltroForm());
 
+        // ── Contratos ──────────────────────────────────────────────────────
+        private void crearContratoToolStripMenuItem_Click(object sender, EventArgs e)
+            => ShowChildForm(new CrearContratoForm());
+
+        private void buscarContratoToolStripMenuItem_Click(object sender, EventArgs e)
+            => ShowChildForm(new BuscarContratoForm());
+
+        private void listarContratosToolStripMenuItem_Click(object sender, EventArgs e)
+            => ShowChildForm(new ListarContratosForm());
+
+        private void listarContratosPorFiltroToolStripMenuItem_Click(object sender, EventArgs e)
+            => ShowChildForm(new ListarContratosPorFiltroForm());
+
+        private void actualizarContratoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var selector = new SeleccionarContratoForm("Seleccionar Contrato a Actualizar"))
+            {
+                if (selector.ShowDialog(this) == DialogResult.OK && selector.SelectedContract != null)
+                    ShowChildForm(new ActualizarContratoForm(selector.SelectedContract));
+            }
+        }
+
+        private void eliminarContratoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var selector = new SeleccionarContratoForm("Seleccionar Contrato a Eliminar"))
+            {
+                if (selector.ShowDialog(this) == DialogResult.OK && selector.SelectedContract != null)
+                    ShowChildForm(new EliminarContratoForm(selector.SelectedContract));
+            }
+        }
+
         // ── Ayuda ──────────────────────────────────────────────────────────
         private void acercaDeToolStripMenuItem_Click(object sender, EventArgs e)
         {

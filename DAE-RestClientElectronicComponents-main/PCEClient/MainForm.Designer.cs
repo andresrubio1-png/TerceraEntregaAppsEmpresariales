@@ -36,6 +36,14 @@ namespace PCEClient
             this.actualizarToolStripMenuItem        = new System.Windows.Forms.ToolStripMenuItem();
             this.listarToolStripMenuItem            = new System.Windows.Forms.ToolStripMenuItem();
             this.listarPorFiltroToolStripMenuItem   = new System.Windows.Forms.ToolStripMenuItem();
+            // Contratos
+            this.contratosToolStripMenuItem          = new System.Windows.Forms.ToolStripMenuItem();
+            this.crearContratoToolStripMenuItem      = new System.Windows.Forms.ToolStripMenuItem();
+            this.buscarContratoToolStripMenuItem     = new System.Windows.Forms.ToolStripMenuItem();
+            this.listarContratosToolStripMenuItem    = new System.Windows.Forms.ToolStripMenuItem();
+            this.listarContratosPorFiltroToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.actualizarContratoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.eliminarContratoToolStripMenuItem   = new System.Windows.Forms.ToolStripMenuItem();
             // Ayuda
             this.ayudaToolStripMenuItem    = new System.Windows.Forms.ToolStripMenuItem();
             this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,6 +56,7 @@ namespace PCEClient
                 this.archivoToolStripMenuItem,
                 this.fabricanteToolStripMenuItem,
                 this.componentePasivoToolStripMenuItem,
+                this.contratosToolStripMenuItem,
                 this.ayudaToolStripMenuItem });
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name     = "menuStrip";
@@ -124,6 +133,35 @@ namespace PCEClient
             this.listarPorFiltroToolStripMenuItem.Text   = "Listar (por filtro)";
             this.listarPorFiltroToolStripMenuItem.Click += new System.EventHandler(this.listarPorFiltroToolStripMenuItem_Click);
 
+            // Contratos
+            this.contratosToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+                this.crearContratoToolStripMenuItem,
+                this.buscarContratoToolStripMenuItem,
+                this.listarContratosToolStripMenuItem,
+                this.listarContratosPorFiltroToolStripMenuItem,
+                this.actualizarContratoToolStripMenuItem,
+                this.eliminarContratoToolStripMenuItem });
+            this.contratosToolStripMenuItem.Name = "contratosToolStripMenuItem";
+            this.contratosToolStripMenuItem.Text = "Contratos";
+            this.crearContratoToolStripMenuItem.Name = "crearContratoToolStripMenuItem";
+            this.crearContratoToolStripMenuItem.Text = "Crear";
+            this.crearContratoToolStripMenuItem.Click += new System.EventHandler(this.crearContratoToolStripMenuItem_Click);
+            this.buscarContratoToolStripMenuItem.Name = "buscarContratoToolStripMenuItem";
+            this.buscarContratoToolStripMenuItem.Text = "Buscar por número";
+            this.buscarContratoToolStripMenuItem.Click += new System.EventHandler(this.buscarContratoToolStripMenuItem_Click);
+            this.listarContratosToolStripMenuItem.Name = "listarContratosToolStripMenuItem";
+            this.listarContratosToolStripMenuItem.Text = "Listar";
+            this.listarContratosToolStripMenuItem.Click += new System.EventHandler(this.listarContratosToolStripMenuItem_Click);
+            this.listarContratosPorFiltroToolStripMenuItem.Name = "listarContratosPorFiltroToolStripMenuItem";
+            this.listarContratosPorFiltroToolStripMenuItem.Text = "Listar (por filtro)";
+            this.listarContratosPorFiltroToolStripMenuItem.Click += new System.EventHandler(this.listarContratosPorFiltroToolStripMenuItem_Click);
+            this.actualizarContratoToolStripMenuItem.Name = "actualizarContratoToolStripMenuItem";
+            this.actualizarContratoToolStripMenuItem.Text = "Actualizar";
+            this.actualizarContratoToolStripMenuItem.Click += new System.EventHandler(this.actualizarContratoToolStripMenuItem_Click);
+            this.eliminarContratoToolStripMenuItem.Name = "eliminarContratoToolStripMenuItem";
+            this.eliminarContratoToolStripMenuItem.Text = "Eliminar";
+            this.eliminarContratoToolStripMenuItem.Click += new System.EventHandler(this.eliminarContratoToolStripMenuItem_Click);
+
             // Ayuda
             this.ayudaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.acercaDeToolStripMenuItem });
             this.ayudaToolStripMenuItem.Name = "ayudaToolStripMenuItem";
@@ -167,6 +205,13 @@ namespace PCEClient
         private System.Windows.Forms.ToolStripMenuItem actualizarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem listarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem listarPorFiltroToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem contratosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem crearContratoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem buscarContratoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem listarContratosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem listarContratosPorFiltroToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem actualizarContratoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem eliminarContratoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ayudaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem acercaDeToolStripMenuItem;
     }
