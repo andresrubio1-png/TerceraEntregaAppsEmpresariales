@@ -156,13 +156,13 @@ button {
   background: var(--primary);
 
   color: white;
-
+  margin: 0 6px;
   border: none;
 
-  padding: 12px 18px;
+  padding: 12px 38px;
 
   border-radius: 6px;
-
+  margin-bottom: 16px;
   font-size: 14px;
   font-weight: 600;
 

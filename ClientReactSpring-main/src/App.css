@@ -41,7 +41,7 @@
 .topbar-nav {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 
   flex-wrap: wrap;
 }
@@ -96,7 +96,7 @@
 
 .actions {
   display: flex;
-  gap: 12px;
+  gap: 26px;
 }
 
 /* CONTENT */
@@ -360,7 +360,7 @@ tr:hover {
 
   .topbar {
     flex-direction: column;
-    gap: 16px;
+    gap: 6px;
 
     align-items: flex-start;
   }
